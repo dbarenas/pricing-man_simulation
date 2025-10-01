@@ -27,3 +27,19 @@ class PriceSuggestionEvent(BaseEvent):
     valid_until: str
     confidence: float
     type: str = "price_suggestion.v1"
+
+
+@dataclass
+class HistoricalDataEvent(BaseEvent):
+    trip_id: str
+    capacity: int
+    historical_bookings: List[Dict[str, Any]]  # e.g., [{'days_before': 7, 'bookings': 50}]
+    type: str = "historical_data.v1"
+
+
+@dataclass
+class PromotionSuggestionEvent(BaseEvent):
+    trip_id: str
+    discount_pct: int
+    reasoning: str
+    type: str = "promotion_suggestion.v1"
