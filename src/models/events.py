@@ -43,3 +43,12 @@ class PromotionSuggestionEvent(BaseEvent):
     discount_pct: int
     reasoning: str
     type: str = "promotion_suggestion.v1"
+
+
+@dataclass
+class MediaImpactScoreEvent(BaseEvent):
+    trip_id: str
+    media_impact_score: float  # A score from -1.0 to 1.0 representing the campaign's effect
+    campaign_idea: str
+    reasoning: str
+    type: str = "media_impact_score.v1"

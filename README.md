@@ -25,8 +25,9 @@ The system is built around an **asynchronous, event-driven architecture**. This 
 The core components are:
 1.  **Event Bus**: The central nervous system of the application. All communication between agents happens via the event bus. This implementation uses an in-memory bus for simplicity, but it can be easily swapped with a production-grade message broker like Kafka or RabbitMQ.
 2.  **Agents**: Independent, specialized services that perform specific tasks. Each agent subscribes to events it's interested in, processes them, and may publish new events as a result. Examples include:
-    *   The `PricingAgent` listens for `DemandForecastEvent` and publishes a `PriceSuggestionEvent`.
+    *   The `PricingAgent` listens for `DemandForecastEvent` and `MediaImpactScoreEvent` to publish a `PriceSuggestionEvent`.
     *   The `HistoricalAnalysisAgent` listens for `HistoricalDataEvent` and publishes a `PromotionSuggestionEvent`.
+    *   The `MediaAgent` simulates media campaigns and publishes a `MediaImpactScoreEvent`.
 3.  **Events**: Plain data objects that represent a fact or a signal within the system (e.g., a new booking, a weather update, a demand forecast). Events are defined using Python `dataclasses` for clear, structured contracts.
 4.  **Agent SDK**: A simple Software Development Kit (`src/sdk`) that provides a base `Agent` class. This class handles the boilerplate of subscribing and publishing to the event bus, allowing developers to focus on the agent's logic.
 
@@ -47,7 +48,8 @@ The typical flow is as follows:
 ├── src
 │   ├── agents
 │   │   ├── pricing_agent.py
-│   │   └── historical_analysis_agent.py # Analyzes past performance
+│   │   ├── historical_analysis_agent.py
+│   │   └── media_agent.py   # Simulates media campaigns
 │   ├── event_bus
 │   │   └── memory_bus.py    # In-memory event bus for local dev
 │   ├── models
@@ -56,7 +58,8 @@ The typical flow is as follows:
 │       └── agent.py         # The base Agent SDK class
 └── tests
     ├── test_pricing_agent.py
-    └── test_historical_analysis_agent.py
+    ├── test_historical_analysis_agent.py
+    └── test_media_agent.py
 ```
 
 ---
